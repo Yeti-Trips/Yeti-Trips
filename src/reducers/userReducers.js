@@ -9,7 +9,6 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     addId: addIdFn,
-
   }
 });
 
