@@ -1,7 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from './pages/App.jsx';
+import store from './store.js';
+import { Provider } from 'react-redux';
 
+import AnotherPage from './pages/AnotherPage.jsx';
 
 import {
   createBrowserRouter,
@@ -14,10 +17,10 @@ import {
 
 
 const router = createBrowserRouter([
-  // {
-  //   path: "/anotherPath",
-  //   element: <anotherPage/>,
-  // },
+  {
+    path: "/anotherPath",
+    element: <AnotherPage/>
+  },
   {
     path: "/",
     element: <App/>
@@ -25,7 +28,9 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
+  <Provider store = {store}>
+    <React.StrictMode>
+      <RouterProvider router={router} />
+    </React.StrictMode>
+  </Provider>
 );

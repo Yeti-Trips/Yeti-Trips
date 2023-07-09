@@ -2,19 +2,17 @@ import React, { Component } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addId } from '../reducers/userReducers.js';
 
-const App = () => {
+const AnotherPage = () => {
 
   const stateID = useSelector(state => state.user.idCount);
   const dispatch = useDispatch();
 
   return (
-    <div className="mainApp">
+    <div>
       {stateID}
-      <button onClick = {() => {dispatch(addId())}}>
-        Update Count
-      </button>
+      This is a test page
     </div>
   );
 };
 
-export default App;
+export default AnotherPage;
