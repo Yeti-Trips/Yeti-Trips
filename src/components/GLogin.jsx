@@ -15,7 +15,7 @@ function GLogin() {
     const userObject = jwt_decode(credentialResponse.credential);
     console.log('userObject: ', userObject);
     
-    
+
 
   }
   const onFailure = (res) => {
