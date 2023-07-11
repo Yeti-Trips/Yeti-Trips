@@ -30,6 +30,7 @@ if (process.env.NODE_ENV === "development") {
   //   });
 }
 
+
 app.use("/api/users", userRoutes);
 
 // Global error handler
