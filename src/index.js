@@ -5,6 +5,7 @@ import store from './store.js';
 import { Provider } from 'react-redux';
 
 import AnotherPage from './pages/AnotherPage.jsx';
+import Signup from './pages/Signup.jsx';
 
 import {
   createBrowserRouter,
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
   {
     path: "/anotherPath",
     element: <AnotherPage/>
+  },
+  {
+    path: "/signup",
+    element: <Signup />
   },
   {
     path: "/",
