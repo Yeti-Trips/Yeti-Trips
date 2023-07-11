@@ -1,10 +1,27 @@
 const express = require('express');
+const cookieSession = require('cookie-session');
 const app = express();
 const path = require('path');
 const cors = require('cors');
+const passportSetup = require('./routes/passport.js');
+const oauthRoute = require('./routes/oauth.js');
 // const apiRouter = require('./routes/api.js');
 
-app.use(cors());
+app.use(
+  cookieSession({
+    name: 'session',
+    keys: ['key1', 'key2'],
+    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+  })
+)
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(cors({
+  origin: 'http://localhost:3000',
+  methods: 'GET,POST,PUT,DELETE',
+  credentials: true
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
@@ -13,7 +30,7 @@ app.use(express.urlencoded({ extended: false }));
 
 // app.use('/api', apiRouter);
 
-
+app.use('/oauth', oauthRoute);
 
 if (process.env.NODE_ENV === 'development') {
   console.log(process.env.NODE_ENV);
