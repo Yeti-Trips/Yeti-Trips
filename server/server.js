@@ -13,7 +13,17 @@ app.use(express.urlencoded({ extended: false }));
 
 // app.use('/api', apiRouter);
 
+//Login POST
+app.post('/server/login', (req, res, next) => {
+  console.log(req.body);
+  return next();
+})
 
+//Signup POST
+app.post('/server/signup', (req, res, next) => {
+  console.log(req.body);
+  return next();
+})
 
 if (process.env.NODE_ENV === 'development') {
   console.log(process.env.NODE_ENV);
@@ -34,6 +44,7 @@ else {
     return res.status(200).sendFile(path.join(__dirname, '../dist/index.html'));
   });
 }
+
 
 
 
