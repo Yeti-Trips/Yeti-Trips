@@ -6,6 +6,8 @@ import GLogout from '../components/gLogout.jsx';
 import { addId } from '../reducers/userReducers.js';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
+import Login from '../components/Login.jsx';
+
 const App = () => {
 
   const stateID = useSelector(state => state.user.idCount);
@@ -13,12 +15,11 @@ const App = () => {
 
   return (
     <div className="mainApp">
+      <Login />
       {stateID}
       <button onClick = {() => {dispatch(addId())}}>
         Update Count
       </button>
-      <GLogin />
-      <GLogout />
     </div>
   );
 };

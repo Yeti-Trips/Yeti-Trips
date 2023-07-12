@@ -6,10 +6,17 @@ router.get('/login/success', (req, res) => {
     res.status(200).json({
       success: true,
       message: 'success',
-      user: req.uers,
+      user: req.users,
       cookies: req.cookies
     })
   }
+});
+
+router.get("/login/failed", (req, res) => {
+  res.status(401).json({
+    success: false,
+    message: 'user failed to authenticate'
+  });
 });
 
 router.get('/logout', (req, res) => {
@@ -21,8 +28,8 @@ router.get('/google', passport.authenticate('google', {scope: ['profile', 'email
 
 
 router.get('/google/callback', passport.authenticate('google', {
-  sucessRedirect: 'http://localhost:3000/home',
-  failureRedirect: 'http://localhost:3000/login' //can redirect to login failed page
+  successRedirect: 'http://localhost:3000/anotherPath',
+  failureRedirect: 'http://localhost:3000/login/failed' //can redirect to login failed page
 }))
 
 module.exports = router;
