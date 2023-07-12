@@ -57,11 +57,16 @@ function verify(issuer, profile, cb) {
 }));
 
 passport.serializeUser((user, done) => {
-  done(null, user);
+  done(null, user.id);
 });
 
-passport.deserializeUser((user, done) => {
-  done(null,user);
+passport.deserializeUser((id, done) => {
+  // Replace this with your database query to fetch the user based on the ID
+  db.query('SELECT * FROM users WHERE id = $1', [id], function(err, result) {
+    if (err) { return done(err); }
+    if (result.rows.length === 0) { return done(null, false); }
+    return done(null, result.rows[0]);
+  });
 });
 
 // async function getUserData(accessToken) {

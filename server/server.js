@@ -44,17 +44,6 @@ app.use(express.urlencoded({ extended: false }));
 //connect to local database
 
 //configure sesion middleware with PostgreSQL store
-app.use(
-  session({
-    store: new PgSession({
-      pool: pgPool,
-      tableName: 'sessions',
-    }),
-    secret: 'yeti',
-    resave: false,
-    saveUninitialized: true,
-  })
-);
 // app.use('/api', apiRouter);
 
 app.use('/server/oauth', oauthRoute);
