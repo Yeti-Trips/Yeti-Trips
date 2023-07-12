@@ -4,6 +4,8 @@ const passport = require('passport');
 //load environment variables from .env file
 dotenv.config();
 const {OAuth2Client} = require('google-auth-library');
+const db = require('./db'); //connect to database
+
 // process.env.CLIENT_ID,
 // process.env.CLIENT_SECRET
 
@@ -13,48 +15,54 @@ passport.use(new GoogleStrategy({
   clientID: "675806936485-hnn3n904n9ofgg9pqg599oqnn1ja2f5r.apps.googleusercontent.com",
   clientSecret: "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",
   callbackURL: "/server/oauth/google/callback",
-  scope: ['profile']
+  scope: ['https://www.googleapis.com/auth/userinfo.profile', 'email']
 },
 //replace with to make work again w/o database
 // function verify(issuer, profile, cb) {
 //   done(null, profile);
 //   }
-function verify(issuer, profile, cb) {
-  db.query('SELECT * FROM federated_credentials WHERE provider = $1 AND subject = $2', [
-    issuer,
-    profile.id
-  ], function(err, result) {
+function (accessToken, refreshToken, profile, cb) {
+  console.log('profile: ', profile);
+  db.query('SELECT * FROM users WHERE email = $1', [profile.emails[0].value], function(err, result) {
     if (err) { return cb(err); }
     if (result.rows.length === 0) {
-      db.query('INSERT INTO users (name) VALUES ($1) RETURNING id', [
-        profile.displayName
+      // User does not exist, insert a new user
+      const newUser = {
+        email: profile.emails[0].value,
+        userpassword: '', // Set the password according to your requirements
+        firstname: profile.name.givenName,
+        lastname: profile.name.familyName,
+        avatarimage: '' // Set the avatar image path or URL
+      };
+
+      db.query('INSERT INTO users (email, userpassword, firstname, lastname, avatarimage) VALUES ($1, $2, $3, $4, $5) RETURNING userid', [
+        newUser.email,
+        newUser.userpassword,
+        newUser.firstname,
+        newUser.lastname,
+        newUser.avatarimage
       ], function(err, result) {
         if (err) { return cb(err); }
-
-        var id = result.rows[0].id;
-        db.query('INSERT INTO federated_credentials (user_id, provider, subject) VALUES ($1, $2, $3)', [
-          id,
-          issuer,
-          profile.id
-        ], function(err) {
-          if (err) { return cb(err); }
-          var user = {
-            id: id,
-            name: profile.displayName
-          };
-          return cb(null, user);
-        });
+        console.log('user created')
+        var user = {
+          id: result.rows[0].userid,
+          name: newUser.firstname + ' ' + newUser.lastname
+        };
+        return cb(null, user);
       });
     } else {
-      var user_id = result.rows[0].user_id;
-      db.query('SELECT * FROM users WHERE id = $1', [ user_id ], function(err, result) {
-        if (err) { return cb(err); }
-        if (result.rows.length === 0) { return cb(null, false); }
-        return cb(null, result.rows[0]);
-      });
+      // User exists, return the user
+      console.log('user exists');
+      var user = {
+        id: result.rows[0].userid,
+        name: result.rows[0].firstname + ' ' + result.rows[0].lastname
+      };
+      console.log(user);
+      return cb(null, user);
     }
   });
-}));
+}
+));
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
@@ -62,7 +70,7 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser((id, done) => {
   // Replace this with your database query to fetch the user based on the ID
-  db.query('SELECT * FROM users WHERE id = $1', [id], function(err, result) {
+  db.query('SELECT * FROM users WHERE userid = $1', [id], function(err, result) {
     if (err) { return done(err); }
     if (result.rows.length === 0) { return done(null, false); }
     return done(null, result.rows[0]);

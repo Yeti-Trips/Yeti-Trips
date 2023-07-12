@@ -28,8 +28,8 @@ router.get('/google', passport.authenticate('google', {scope: ['profile', 'email
 
 
 router.get('/google/callback', passport.authenticate('google', {
-  successRedirect: 'http://localhost:3000/anotherPath',
-  failureRedirect: 'http://localhost:3000/login/failed' //can redirect to login failed page
+  successRedirect: '/anotherPath',
+  failureRedirect: '/login/failed' //can redirect to login failed page
 }))
 
 module.exports = router;
