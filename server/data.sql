@@ -14,3 +14,9 @@ ALTER TABLE users ADD COLUMN avatar_image VARCHAR(255);
 INSERT INTO users (id, user_email, user_password, first_name, last_name) VALUES(DEFAULT,'kayla@gmail.com','1','Kayla','G');
 
 DROP TABLE users;
+
+CREATE TABLE sessions (
+  sid VARCHAR PRIMARY KEY NOT NULL,
+  sess JSON NOT NULL,
+  expire TIMESTAMP(6) NOT NULL
+);

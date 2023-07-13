@@ -5,22 +5,26 @@ import { Link } from 'react-router-dom';
 const Login = props => {
     const navigate = useNavigate();
     const loginUser = (email, password) => {
-        fetch('http://localhost:3000/server/login', 
+        fetch('http://localhost:3000/server/oauth/login', 
             {
                 method: 'POST', 
                 headers: {'Content-Type': 'application/json',},
                 body: JSON.stringify({email: email, password: password})
             })
         .then((response) => {
-            const jsonResponse = response.json();
+            console.log(response.url);
             //Successful Login
-            if(jsonResponse){
-                navigate('/anotherPath')
+            if(response.ok) {
+                console.log('response.url: ', response.url)
+                window.location.href = response.url;
             //Failed Login
             } else {
-                navigate('/anotherPath')
+                console.error('Authenitcation failed.');
             }
             });
+    }
+    const google = () => {
+        window.open("http://localhost:3000/server/oauth/google", "_self");
     }
 
     return(
@@ -44,7 +48,7 @@ const Login = props => {
             <button className="login-button" onClick={() => loginUser(document.querySelector('#loginEmail').value, document.querySelector('#loginPassword').value)}>Login</button>
 
             {/* NEED LINK!!! */}
-            <button className="login-button" onClick={() => props}>Sign in with Google</button>
+            <button className="login-button" onClick={google}>Sign in with Google</button>
             <br /><br />
             
            {/*Forgot Password Link - NEED LINK!!! */}     

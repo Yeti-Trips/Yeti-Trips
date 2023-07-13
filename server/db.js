@@ -8,6 +8,10 @@ const pool = new Pool({
   connectionString: connectionString,
 });
 
+pool.on("connect", () => {
+  console.log("connected to the db")
+});
+
 // // pool.connection();
 // module.exports = {
 //   query: (text, params, callback) => {
