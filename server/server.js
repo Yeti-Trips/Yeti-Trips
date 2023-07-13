@@ -1,17 +1,17 @@
-const express = require('express');
-const session = require('express-session');
+const express = require("express");
+const session = require("express-session");
 const app = express();
-const path = require('path');
-const cors = require('cors');
+const path = require("path");
+const cors = require("cors");
 const passport = require("passport");
-const passportSetup = require('./passport.js');
-const oauthRoute = require('./routes/oauth.js');
-const logger = require('morgan');
-const PgSession = require('connect-pg-simple')(session);
+const passportSetup = require("./passport.js");
+const oauthRoute = require("./routes/oauth.js");
+const logger = require("morgan");
+const PgSession = require("connect-pg-simple")(session);
 require("dotenv").config();
 
 const userRoutes = require("./routes/user");
-const pgPool = require('./db.js');
+const pgPool = require("./db.js");
 
 //connect to local database
 const PORT = process.env.PORT;
@@ -21,21 +21,21 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(
   session({
-    secret: 'yeti',
+    secret: "yeti",
     resave: false,
     saveUninitialized: false,
     store: new PgSession({
       pool: pgPool,
-      tableName: 'sessions',
-     })
+      tableName: "sessions",
+    }),
   })
-)
+);
 
 app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(cors());
-
+app.use("/avatar", express.static(path.join(__dirname, "public")));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -46,20 +46,20 @@ app.use(express.urlencoded({ extended: false }));
 // app.use('/api', apiRouter);
 
 //login routes
-app.use('/server/oauth', oauthRoute);
+app.use("/server/oauth", oauthRoute);
 
 //Login POST
-app.post('/server/login', (req, res, next) => {
+app.post("/server/login", (req, res, next) => {
   console.log(req.body);
   return next();
-})
+});
 
 //Signup POST
-app.post('/server/signup', (req, res, next) => {
+app.post("/server/signup", (req, res, next) => {
   console.log(req.body);
   return next();
-})
-
+});
+//User Route
 app.use("/api/users", userRoutes);
 
 if (process.env.NODE_ENV === "development") {
@@ -71,16 +71,15 @@ if (process.env.NODE_ENV === "development") {
     console.log("dev request");
     return res.status(200).sendFile(path.join(__dirname, "../src/index.html"));
   });
-  } else {
-    console.log("entered prod path");
-    app.use("/", express.static(path.join(__dirname, "../dist")));
+} else {
+  console.log("entered prod path");
+  app.use("/", express.static(path.join(__dirname, "../dist")));
 
-    app.get("/*", (req, res) => {
-      console.log("catch all");
-      return res.status(200).sendFile(path.join(__dirname, "../dist/index.html"));
-    });
+  app.get("/*", (req, res) => {
+    console.log("catch all");
+    return res.status(200).sendFile(path.join(__dirname, "../dist/index.html"));
+  });
 }
-
 
 // Global error handler
 app.use((err, req, res, next) => {
