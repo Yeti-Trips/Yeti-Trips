@@ -34,11 +34,8 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(cors({
-  origin: 'http://localhost:3000',
-  methods: 'GET,POST,PUT,DELETE',
-  credentials: true
-}));
+app.use(cors());
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -48,6 +45,7 @@ app.use(express.urlencoded({ extended: false }));
 //configure sesion middleware with PostgreSQL store
 // app.use('/api', apiRouter);
 
+//login routes
 app.use('/server/oauth', oauthRoute);
 
 //Login POST
@@ -85,16 +83,16 @@ if (process.env.NODE_ENV === "development") {
 
 
 // Global error handler
-// app.use((err, req, res, next) => {
-//   const defaultErr = {
-//     log: "Express error handler caught unknown middleware error",
-//     status: 400,
-//     message: { err: "An error occurred" },
-//   };
-//   const errorObj = Object.assign({}, defaultErr, err);
-//   console.log(errorObj.log);
-//   return res.status(errorObj.status).json(errorObj.message);
-// });
+app.use((err, req, res, next) => {
+  const defaultErr = {
+    log: "Express error handler caught unknown middleware error",
+    status: 400,
+    message: { err: "An error occurred" },
+  };
+  const errorObj = Object.assign({}, defaultErr, err);
+  console.log(errorObj.log);
+  return res.status(errorObj.status).json(errorObj.message);
+});
 
 app.listen(PORT, async () => {
   try {

@@ -6,7 +6,7 @@ router.get('/login/success', (req, res) => {
     res.status(200).json({
       success: true,
       message: 'success',
-      user: req.users,
+      user: req.user,
       cookies: req.cookies
     })
   }
@@ -23,6 +23,18 @@ router.get('/logout', (req, res) => {
   req.logout();
   res.redirect('http://localhost:3000/login')
 })
+
+// {
+//   successRedirect: '/anotherPath',
+//   failureRedirect: '/' //can redirect to login failed page
+// }
+//login path with username, password
+router.post('/login', passport.authenticate('local', {failureRedirect: '/', failureMessage: true}),
+  (req, res) => {
+    const userId = req.user.id;
+    req.session.userId = userId;
+    res.redirect('/anotherPath');
+  });
 
 router.get('/google', passport.authenticate('google', {scope: ['profile', 'email']}));
 

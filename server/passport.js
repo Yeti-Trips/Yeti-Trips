@@ -10,19 +10,18 @@ const db = require('./db'); //connect to database
 // process.env.CLIENT_SECRET
 
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const LocalStrategy = require('passport-local').Strategy;
 
+//Google strategy
 passport.use(new GoogleStrategy({
   clientID: "675806936485-hnn3n904n9ofgg9pqg599oqnn1ja2f5r.apps.googleusercontent.com",
   clientSecret: "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",
   callbackURL: "/server/oauth/google/callback",
   scope: ['https://www.googleapis.com/auth/userinfo.profile', 'email']
 },
-//replace with to make work again w/o database
-// function verify(issuer, profile, cb) {
-//   done(null, profile);
-//   }
+
 function (accessToken, refreshToken, profile, cb) {
-  console.log('profile: ', profile);
+  // console.log('profile: ', profile);
   db.query('SELECT * FROM users WHERE email = $1', [profile.emails[0].value], function(err, result) {
     if (err) { return cb(err); }
     if (result.rows.length === 0) {
@@ -57,12 +56,34 @@ function (accessToken, refreshToken, profile, cb) {
         id: result.rows[0].userid,
         name: result.rows[0].firstname + ' ' + result.rows[0].lastname
       };
-      console.log(user);
       return cb(null, user);
     }
   });
 }
 ));
+
+//Local strategy
+passport.use(new LocalStrategy({
+  usernameField: 'email',
+  passwordField: 'password'
+},
+function verify(email, password, done) {
+  db.query('SELECT * FROM users WHERE email = $1', [email], function(err, result) {
+    if (err) { return done(err); }
+    if (result.rows.length === 0) { return done(null, false, { message: 'Incorrect username or password.'}) }
+
+    //check username password against hashed password
+    const user = result.rows[0];
+    user.id = user.userid;
+    const hashedPassword = user.userpassword
+    // change to this when encryption is made: bcrypt.compareSync(password, hashedPassword)
+    if (hashedPassword === password) {
+      console.log('passwords match')
+      return done(null, user);
+    }
+    return done(null, false, { message: 'Incorrect username or password.'})
+  })
+}));
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
@@ -77,30 +98,8 @@ passport.deserializeUser((id, done) => {
   });
 });
 
-// async function getUserData(accessToken) {
-//   const response = await fetch(`https://www.googleapis.com/oauth2/v3/userinfo?access_token=${accessToken}`);
-//   const data = await response.json();
-//   console.log('data: ', data);
 
-// }
 
-// router.get('/', async function(req, res, next) {
-//   const code = req.query.code;
-//   console.log('code: ', code);
-//   try {
-//     const redirectUrl = 'http://localhost:3000/home';
-//     const oAuth2Client = new OAuth2Client(
-//       process.env.CLIENT_ID,
-//       process.env.CLIENT_SECRET,
-//       redirectUrl
-//     );
-//     const res = await oAuth2Client.getToken(code);
-//     await oAuth2Client.setCredentials(res.tokens);
-//     console.log('Tokens acquired');
-//     const user = oAuth2Client.credentials;
-//     console.log('credentials: ', user);
-//     await getUserData(user.access_token);
-//   }catch(err){
-//     console.log('error with signing in with Google: ', err)
-//   }
-// });
+
+
+
