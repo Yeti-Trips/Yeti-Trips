@@ -1,21 +1,13 @@
 import React, { Component } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { addId } from '../reducers/userReducers.js';
 
 import Login from '../components/Login.jsx';
+import ProfileSettings from './ProfileSettings.jsx';
 
 const App = () => {
-
-  const stateID = useSelector(state => state.user.idCount);
-  const dispatch = useDispatch();
-
   return (
     <div className="mainApp">
+      <ProfileSettings />
       <Login />
-      {stateID}
-      <button onClick = {() => {dispatch(addId())}}>
-        Update Count
-      </button>
     </div>
   );
 };
