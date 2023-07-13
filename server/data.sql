@@ -83,3 +83,9 @@ what time of year would you like to go? pk1 blalk, adlajkaka, alkdk
 --     quizQuestionId: 1
 --     answers: []
 -- }
+
+CREATE TABLE sessions (
+  sid VARCHAR PRIMARY KEY NOT NULL,
+  sess JSON NOT NULL,
+  expire TIMESTAMP(6) NOT NULL
+);
