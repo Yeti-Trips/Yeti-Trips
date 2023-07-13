@@ -1,2 +1,4 @@
 {"user_email":"t","user_password":"c"}
-{"user_email":"@gmail.com","user_password":"","first_name":"","last_name":""}
+{"email":"@gmail.com","userPassword":"","firstName":"","lastName":""}
+
+{"email":"test123@gmail.com","userPassword":"4"}
