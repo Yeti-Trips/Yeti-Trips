@@ -24,8 +24,7 @@ router.post("/", userController.createUser, (req, res) => {
 
 //PATCH a  user
 router.patch("/:id", userController.updateUser, (req, res) => {
-  res.json({ msg: "Updated user" });
-  res.sendStatus(200);
+  res.status(200).json({ msg: "Updated user" });
 });
 
 //DELETE a user
