@@ -17,10 +17,7 @@ const AnotherPage = () => {
         });
         if (response.ok) {
           const data = await response.json();
-          console.log('data: ', data )
-          console.log('data.user: ', data.user);
           const user = data.user;
-          console.log('user: ', user);
           // Dispatch an action to update the Redux store with the user information
           dispatch(addId(user.id));
         } else {
