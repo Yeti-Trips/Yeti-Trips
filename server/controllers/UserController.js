@@ -2,7 +2,7 @@ const db = require("../db");
 
 const UserController = {
   async getUsers(req, res, next) {
-    const queryText = "SELECT * FROM users ORDER BY id ASC;";
+    const queryText = "SELECT * FROM users ORDER BY userId ASC;";
     try {
       const allUsers = await db.query(queryText);
       res.locals.allUsers = allUsers.rows;
@@ -23,7 +23,7 @@ const UserController = {
   // },
   async getUserById(req, res, next) {
     const userId = parseInt(req.params.id);
-    const queryText = "WHERE EXISTS ( SELECT * FROM users WHERE id = $1);";
+    const queryText = " SELECT * FROM users WHERE userId = $1;";
     try {
       const user = await db.query(queryText, [userId]);
       res.locals.userInfo = user.rows;
@@ -36,16 +36,16 @@ const UserController = {
     }
   },
   async createUser(req, res, next) {
-    const { user_email, user_password, first_name, last_name } = req.body;
+    const { email, userPassword, firstName, lastName } = req.body;
     const queryText =
-      "INSERT INTO users (id, user_email, user_password, first_name, last_name) VALUES(DEFAULT, $1, $2,$3, $4)";
+      "INSERT INTO users (userId, email, userPassword, firstName, lastName) VALUES(DEFAULT, $1, $2,$3, $4)";
     // const avatarStr = path.join(__dirname, "../Assets/yeti-avatar.png");
     try {
       const user = await db.query(queryText, [
-        user_email,
-        user_password,
-        first_name,
-        last_name,
+        email,
+        userPassword,
+        firstName,
+        lastName,
       ]);
       // res.locals.newUser = user.rows;
       return next();
@@ -57,27 +57,49 @@ const UserController = {
     }
   },
   async updateUser(req, res, next) {
-    const id = parseInt(req.params.id);
-    const { user_email, user_password } = req.body;
-    const queryText =
-      "UPDATE users SET user_email = $1, user_password = $2 WHERE id = $3";
-    try {
-      const updatedUser = await db.query(queryText, [
-        user_email,
-        user_password,
-        id,
-      ]);
-      return next();
-    } catch (err) {
-      return next({
-        log: "Express error handler caught middleware error when updating user",
-        message: { err: err },
-      });
+    const userId = parseInt(req.params.id);
+    //user can change their avatar, password, and email
+    if (req.body.hasOwnProperty("avatarImage")) {
+      const { avatarImage } = req.body;
+      const queryText = "UPDATE users SET avatarImage = $1 WHERE userId = $2";
+      try {
+        const updatedUser = await db.query(queryText, [avatarImage, userId]);
+        return next();
+      } catch (err) {
+        return next({
+          log: "Express error handler caught middleware error when updating user avatar",
+          message: { err: err },
+        });
+      }
+    } else if (req.body.hasOwnProperty("userPassword")) {
+      const { userPassword } = req.body;
+      const queryText = "UPDATE users SET userPassword = $1 WHERE userId = $2";
+      try {
+        const updatedUser = await db.query(queryText, [userPassword, userId]);
+        return next();
+      } catch (err) {
+        return next({
+          log: "Express error handler caught middleware error when updating user password",
+          message: { err: err },
+        });
+      }
+    } else if (req.body.hasOwnProperty("email")) {
+      const { email } = req.body;
+      const queryText = "UPDATE users SET email = $1 WHERE userId = $2";
+      try {
+        const updatedUser = await db.query(queryText, [email, userId]);
+        return next();
+      } catch (err) {
+        return next({
+          log: "Express error handler caught middleware error when updating user email",
+          message: { err: err },
+        });
+      }
     }
   },
   async deleteUser(req, res, next) {
     const id = parseInt(req.params.id);
-    const queryText = "DELETE FROM users WHERE id = $1";
+    const queryText = "DELETE FROM users WHERE userId = $1";
     try {
       const updatedUser = await db.query(queryText, [id]);
       return next();
