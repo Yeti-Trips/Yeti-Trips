@@ -5,20 +5,21 @@ import { Link } from 'react-router-dom';
 const Login = props => {
     const navigate = useNavigate();
     const loginUser = (email, password) => {
-        fetch('http://localhost:3000/server/login', 
+        fetch('http://localhost:3000/server/oauth/login', 
             {
                 method: 'POST', 
                 headers: {'Content-Type': 'application/json',},
                 body: JSON.stringify({email: email, password: password})
             })
         .then((response) => {
-            const jsonResponse = response.json();
+            console.log(response.url);
             //Successful Login
-            if(jsonResponse){
-                navigate('/anotherPath')
+            if(response.ok) {
+                console.log('response.url: ', response.url)
+                window.location.href = response.url;
             //Failed Login
             } else {
-                navigate('/anotherPath')
+                console.error('Authenitcation failed.');
             }
             });
     }
