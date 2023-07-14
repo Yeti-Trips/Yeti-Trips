@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    userName: "",
-    password: "",
-    avatarUrl: ""
+    idCount: 0,
+    username: undefined,
+    password: undefined
 };
 
 const userSlice = createSlice({
