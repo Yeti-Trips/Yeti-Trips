@@ -5,6 +5,7 @@ import store from './store.js';
 import { Provider } from 'react-redux';
 
 import AnotherPage from './pages/AnotherPage.jsx';
+import CreateGroupVacationContainer from './containers/CreateGroupVacationContainer.jsx';
 
 import {
   createBrowserRouter,
@@ -18,12 +19,16 @@ import {
 
 const router = createBrowserRouter([
   {
+    path: "/",
+    element: <App/>
+  },
+  {
     path: "/anotherPath",
     element: <AnotherPage/>
   },
   {
-    path: "/",
-    element: <App/>
+    path: "/liamtest",
+    element: <CreateGroupVacationContainer/>
   },
 ]);
 
