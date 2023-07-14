@@ -1,8 +1,10 @@
 import React, { Component, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-// import { addId } from '../reducers/userReducers.js';
 
-const AnotherPage = () => {
+import GroupVacationContainer from '../containers/GroupVacationContainer.jsx';
+import VacationContainer from '../containers/VactionContainer.jsx'
+
+const MainPage = () => {
 
   const userName = useSelector(state => state.user.userName);
   const dispatch = useDispatch();
@@ -35,10 +37,10 @@ const AnotherPage = () => {
 
   return (
     <div>
-      {stateID}
-      This is a test page
+      <GroupVacationContainer/>
+      <VacationContainer/>
     </div>
   );
 };
 
-export default AnotherPage;
+export default MainPage;

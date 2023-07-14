@@ -10,10 +10,6 @@ import '../styles/GroupVacationContainer.css';
 const CreateGroupVacationContainer = (props) => {
     const dispatch = useDispatch()
     const {index, questionOne, questionTwo, questionThree} = useSelector(state => state.guest)
-
-    // const [cookies, setCookie] = useCookies(['ssid'])
-    // const user = cookies.username;
-
     const user = useSelector(state => state.user.name);
 
     const generateVacationFetch = (userName) => {
