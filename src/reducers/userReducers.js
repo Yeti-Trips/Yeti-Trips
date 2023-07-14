@@ -10,14 +10,15 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    addId: addIdFn,
+    setUserId: setUserIdFn,
   }
 });
 
 // reducers
-function addIdFn(state) {
-  state.idCount ++
+function setUserIdFn(state, action) {
+  state.userName = action.payload
 }
 
-export const { addId } = userSlice.actions;
+
+export const { setUserId } = userSlice.actions;
 export default userSlice.reducer;
