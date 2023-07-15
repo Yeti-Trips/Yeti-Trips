@@ -9,8 +9,9 @@ const VotingContainer = (props) => {
     const user = useSelector(state => state.user.name);
     const voted = (!tripList[props.tripId].voting.voted.includes(user))
     const vacationOptions = tripList[props.tripId].voting.options;
-    const vacationOptionsComponents = vacationOptions.map(option => {
-        <AiVacationResult name={option.name} price={option.price} type ={option.type} image={option.image}></AiVacationResult>
+    const vacationOptionsComponents = [];
+    vacationOptions.forEach(option => {
+        vacationOptionsComponents.push(<AiVacationResult name={option.name} price={option.price} type ={option.type} image={option.image}></AiVacationResult>)
     }) 
 
     const vacationOptionVoteFetch = (user) => {
