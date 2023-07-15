@@ -11,6 +11,10 @@ const PgSession = require("connect-pg-simple")(session);
 require("dotenv").config();
 
 const userRoutes = require("./routes/user");
+const tripRoutes = require("./routes/trip");
+const quizRoutes = require("./routes/quiz");
+//quiz Answers are really the questions the owner generated
+const quizAnswerRoutes = require("./routes/quizAnswer");
 const pgPool = require("./db.js");
 
 //connect to local database
@@ -59,8 +63,15 @@ app.post("/server/signup", (req, res, next) => {
   console.log(req.body);
   return next();
 });
+
 //User Route
 app.use("/api/users", userRoutes);
+//Trips Route
+app.use("/api/trips", tripRoutes);
+//Quizzes Route
+app.use("/api/quiz", quizRoutes);
+//Quiz Answer Route
+app.use("/api/quizAnswer", quizAnswerRoutes);
 
 if (process.env.NODE_ENV === "development") {
   console.log(process.env.NODE_ENV);

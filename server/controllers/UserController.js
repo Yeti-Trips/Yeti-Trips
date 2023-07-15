@@ -14,15 +14,9 @@ const UserController = {
       });
     }
   },
-  // async getUser(req, res, next) {
-  //   const userEmail = req.params.email;
-  //   const queryText = "SELECT * FROM users WHERE user_email = $1;";
-  //   const user = await db.query(queryText, [userEmail]);
-  //   res.locals.user = user.rows;
-  //   return next();
-  // },
+
   async getUserById(req, res, next) {
-    const userId = parseInt(req.params.id);
+    const userId = parseInt(req.params.id, 10);
     const queryText = " SELECT * FROM users WHERE userId = $1;";
     try {
       const user = await db.query(queryText, [userId]);
@@ -102,11 +96,11 @@ const UserController = {
     const id = parseInt(req.params.id);
     const queryText = "DELETE FROM users WHERE userId = $1";
     try {
-      const updatedUser = await db.query(queryText, [id]);
+      const deleteUser = await db.query(queryText, [id]);
       return next();
     } catch (err) {
       return next({
-        log: "Express error handler caught middleware error when updating user",
+        log: "Express error handler caught middleware error when deleting user",
         message: { err: err },
       });
     }

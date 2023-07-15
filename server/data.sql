@@ -16,8 +16,8 @@ CREATE TABLE trips(
     startDate DATE NOT NULL, 
     endDate DATE NOT NULL
 );
-____________________________________________
 
+-- created but not used
 CREATE TABLE tripGuests (
     tripGuestId SERIAL PRIMARY KEY NOT NULL ,
     userId INT NOT NULL,
@@ -42,6 +42,8 @@ CREATE TABLE quizAnswers(
     answerDescription VARCHAR(255) NOT NULL,
     FOREIGN KEY(quizId) REFERENCES quizzes(quizId)
 );
+
+
 
 CREATE TABLE userQuizzes(
     userQuizId SERIAL PRIMARY KEY NOT NULL ,

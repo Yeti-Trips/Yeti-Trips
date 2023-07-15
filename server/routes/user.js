@@ -7,11 +7,6 @@ router.get("/", userController.getUsers, (req, res) => {
   res.status(200).json([...res.locals.allUsers]);
 });
 
-// //Get user by email
-// router.get("/:email", userController.getUser, (req, res) => {
-//   res.status(200).json(res.locals.user);
-// });
-
 //Get user by id
 router.get("/:id", userController.getUserById, (req, res) => {
   res.status(200).json(res.locals.userInfo);
@@ -22,7 +17,7 @@ router.post("/", userController.createUser, (req, res) => {
   res.status(200).json(res.locals.newUser);
 });
 
-//PATCH a  user
+//PATCH or update a  user
 router.patch("/:id", userController.updateUser, (req, res) => {
   res.status(200).json({ msg: "Updated user" });
 });
