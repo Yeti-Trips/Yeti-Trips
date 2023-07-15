@@ -1,5 +1,6 @@
 import React, { Component, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import GroupVacationContainer from '../containers/GroupVacationContainer.jsx';
 import VacationContainer from '../containers/VactionContainer.jsx'
@@ -38,6 +39,7 @@ const MainPage = () => {
 
   return (
     <div>
+      <Link to="/profileSettings" className="settings-link">Profile Settings</Link>
       <GroupVacationContainer/>
       <VacationContainer/>
       {JSON.stringify(state)}
