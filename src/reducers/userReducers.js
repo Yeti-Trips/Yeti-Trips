@@ -4,7 +4,7 @@ const initialState = {
     idCount: 0,
     email: 'test@email.com',
     password: 'Pass,123!',
-    avatar: 'User picture',
+    avatar: '../assets/imgs/yeti.jpeg',
     isChangeEmail: false,
     isChangePassword: false,
     isChangeAvatar: false,

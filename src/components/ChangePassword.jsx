@@ -1,13 +1,18 @@
 import React from 'react';
 
-export default function ChangePassword() {
-    return (
+export default function ChangePassword(props) {
+    return (props.trigger) ? (
         <div>
-            <label htmlFor="updatePassword">Change Password: </label>
-            <input type="text" id="updatePassword" name="updatePassword" />
-            <br /><br />
-            <button>Save</button>
-            <button>Cancel</button>
+            <div>
+                <br /> <br />
+                <label htmlFor="updatePassword">Change Password: </label>
+                <input type="text" id="updatePassword" name="updatePassword" />
+                <br /><br />
+                <button>Save</button>
+                <button>Cancel</button>
+                { props.children }
+                <br /> <br />
+            </div>
         </div>
-    )
+    ) : "";
 }

@@ -29,7 +29,7 @@ const Login = props => {
 
     return(
         <div className="login-container">
-            {/*Logo - NEED LOGO!!!*/}
+            {/*Logo*/}
             <img src="#" alt="Yeti Trips Logo" />
 
             <h1>Login</h1>
@@ -47,12 +47,8 @@ const Login = props => {
             {/*Login Buttons*/}
             <button className="login-button" onClick={() => loginUser(document.querySelector('#loginEmail').value, document.querySelector('#loginPassword').value)}>Login</button>
 
-            {/* NEED LINK!!! */}
             <button className="login-button" onClick={google}>Sign in with Google</button>
             <br /><br />
-            
-           {/*Forgot Password Link - NEED LINK!!! */}     
-            <a href="#" className="login-link">Forgot password?</a>
 
             {/*Signup Link*/}   
             <Link to="/signup" className="login-link">Signup</Link>

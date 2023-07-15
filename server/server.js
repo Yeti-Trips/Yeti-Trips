@@ -81,7 +81,6 @@ if (process.env.NODE_ENV === "development") {
     });
 }
 
-
 // Global error handler
 app.use((err, req, res, next) => {
   const defaultErr = {
