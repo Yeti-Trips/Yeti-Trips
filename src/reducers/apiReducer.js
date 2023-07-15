@@ -9,7 +9,10 @@ export const serverApi = createApi({
         getVacationListByName: builder.query({
             query: () => '/forTest',
         }),
+        getAiDataByName: builder.query({
+            query: () => '/ai',
+        }),
     }),
 })
 
-export const { useGetVacationListByNameQuery } = serverApi;
+export const { useGetVacationListByNameQuery, useGetAiDataByNameQuery} = serverApi;

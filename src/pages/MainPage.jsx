@@ -7,6 +7,7 @@ import VacationContainer from '../containers/VactionContainer.jsx'
 const MainPage = () => {
 
   const userName = useSelector(state => state.user.userName);
+  const state = useSelector(state => state.trip)
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -39,6 +40,7 @@ const MainPage = () => {
     <div>
       <GroupVacationContainer/>
       <VacationContainer/>
+      {JSON.stringify(state)}
     </div>
   );
 };

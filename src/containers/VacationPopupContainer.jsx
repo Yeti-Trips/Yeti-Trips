@@ -2,7 +2,7 @@ import React from "react";
 import QuizContainer from "./QuizContainer.jsx";
 import VotingContainer from "./votingContainer.jsx";
 import PostVotingContainer from "./PostVotingContainer.jsx";
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 const VacationPopupContainer = (props) => {
     const status = props.status;
