@@ -101,8 +101,8 @@ app.get('/server/forTest', (req, res) => {
 });
 
 app.get('/server/ai', async (req, res) => {
-
-    const API_KEY = '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';
+    console.log('htting server call')
+    const API_KEY = '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';
     const API_URL = 'https://api.openai.com/v1/chat/completions'
     
     try {
@@ -115,10 +115,11 @@ app.get('/server/ai', async (req, res) => {
         body: JSON.stringify({
           model: "gpt-3.5-turbo",
           messages: [{role: "user",
-          content: "Generate an array of 6 formatted objects for vacations. Each object should include keys for the name, price, type and image. Use javascript syntax that can be parsed."}]
+          content: "Generate an array of 3 formatted objects for vacations. Each object should include keys for the name, price, type and image. Use javascript syntax that can be parsed."}]
         })
       })
       const data = await response.json();
+      console.log(data.choices[0].message)
       res.send(data.choices[0].message);
       } catch(error){
         console.log(error)

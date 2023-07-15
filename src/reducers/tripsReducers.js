@@ -40,10 +40,8 @@ function populateVacationOptionFn(state, action) {
     console.log(optionList)
 
     for (let x = 0; x < 3; x++){
-      state.tripList[0].voting.options.push(optionList[x])
-    }
-    for (let x = 3; x < 6; x++){
-      state.tripList[1].voting.options.push(optionList[x])
+      state.tripList[0].voting.options.push(optionList[x]);
+      state.tripList[1].voting.options.push(optionList[x]);
     }
   }
 }
