@@ -22,7 +22,7 @@ const MainPage = () => {
           const data = await response.json();
           const user = data.user;
           // Dispatch an action to update the Redux store with the user information
-          dispatch(addId(user.id));
+          // dispatch(addId(user.id));
         } else {
           // Handle error if the response status is not OK
           console.error('Failed to fetch user data:', response.status);

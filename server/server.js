@@ -101,9 +101,8 @@ app.get('/server/forTest', (req, res) => {
 });
 
 app.get('/server/ai', async (req, res) => {
-    // const query = req.body;
 
-    const API_KEY = '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';
+    const API_KEY = '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';
     const API_URL = 'https://api.openai.com/v1/chat/completions'
     
     try {
@@ -119,8 +118,8 @@ app.get('/server/ai', async (req, res) => {
           content: "Generate an array of 6 formatted objects for vacations. Each object should include keys for the name, price, type and image. Use javascript syntax that can be parsed."}]
         })
       })
-      const data = await response.json()
-      res.send(data.choices[0].message)
+      const data = await response.json();
+      res.send(data.choices[0].message);
       } catch(error){
         console.log(error)
     }
