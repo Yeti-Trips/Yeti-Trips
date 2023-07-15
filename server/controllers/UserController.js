@@ -38,14 +38,15 @@ const UserController = {
   async createUser(req, res, next) {
     const { email, userPassword, firstName, lastName } = req.body;
     const queryText =
-      "INSERT INTO users (userId, email, userPassword, firstName, lastName) VALUES(DEFAULT, $1, $2,$3, $4)";
-    // const avatarStr = path.join(__dirname, "../Assets/yeti-avatar.png");
+      "INSERT INTO users (userId, email, userPassword, firstName, lastName,avatarImage) VALUES(DEFAULT, $1, $2,$3, $4, $5)";
+    const avatarStr = "/avatar/yeti-avatar.png";
     try {
       const user = await db.query(queryText, [
         email,
         userPassword,
         firstName,
         lastName,
+        avatarStr,
       ]);
       // res.locals.newUser = user.rows;
       return next();
