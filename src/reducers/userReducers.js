@@ -4,7 +4,7 @@ const initialState = {
     idCount: 0,
     email: 'test@email.com',
     password: 'Pass,123!',
-    avatar: '../assets/imgs/yeti.jpeg',
+    avatar: '',
     isChangeEmail: false,
     isChangePassword: false,
     isChangeAvatar: false,
@@ -15,7 +15,6 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    addId: addIdFn,
     changeEmailPopup: changeEmailPopupFn,
     changePasswordPopup: changePasswordPopupFn,
     changeAvatarPopup: changeAvatarPopupFn,
@@ -24,8 +23,8 @@ const userSlice = createSlice({
 });
 
 // reducers
-function addIdFn(state) {
-  state.idCount ++
+function setUserIdFn(state, action) {
+  state.userName = action.payload
 }
 
 function changeEmailPopupFn(state) {
@@ -48,5 +47,5 @@ function deleteAccountPopupFn(state) {
   else state.isDeleteAccount = false;
 }
 
-export const { addId, changeEmailPopup, changePasswordPopup, changeAvatarPopup, deleteAccountPopup } = userSlice.actions;
+export const { changeEmailPopup, changePasswordPopup, changeAvatarPopup, deleteAccountPopup } = userSlice.actions;
 export default userSlice.reducer;
