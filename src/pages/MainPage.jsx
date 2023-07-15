@@ -20,8 +20,10 @@ const MainPage = () => {
         if (response.ok) {
           const data = await response.json();
           const user = data.user;
+          console.log(user);
+          console.log('hi');
           // Dispatch an action to update the Redux store with the user information
-          dispatch(addId(user.id));
+          // dispatch(addId(user.id));
         } else {
           // Handle error if the response status is not OK
           console.error('Failed to fetch user data:', response.status);
