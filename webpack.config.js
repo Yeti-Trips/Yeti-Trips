@@ -24,7 +24,7 @@ module.exports = {
     hot: true,
     port: 8080,
     proxy: {
-      // '/api': 'http://localhost:3000',
+      '/': 'http://localhost:3000',
     }
   },
 
@@ -33,12 +33,7 @@ module.exports = {
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env', '@babel/preset-react']
-          }
-        }
+        loader: require.resolve('babel-loader'),
       },
       {
         test: /\.css$/i,

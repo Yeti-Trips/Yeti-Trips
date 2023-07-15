@@ -1,7 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from './pages/App.jsx';
+import store from './store.js';
+import { Provider } from 'react-redux';
 
+import MainPage from './pages/MainPage.jsx';
+import Signup from './pages/Signup.jsx';
 
 import {
   createBrowserRouter,
@@ -11,13 +15,19 @@ import {
   Link,
 } from "react-router-dom";
 
-
-
 const router = createBrowserRouter([
-  // {
-  //   path: "/anotherPath",
-  //   element: <anotherPage/>,
-  // },
+  {
+    path: "/",
+    element: <App/>
+  },
+  {
+    path: "/anotherPath",
+    element: <MainPage/>
+  },
+  {
+    path: "/signup",
+    element: <Signup />
+  },
   {
     path: "/",
     element: <App/>
@@ -25,7 +35,9 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
+  <Provider store = {store}>
+    <React.StrictMode>
+      <RouterProvider router={router} />
+    </React.StrictMode>
+  </Provider>
 );

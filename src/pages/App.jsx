@@ -1,9 +1,12 @@
+
 import React, { Component } from 'react';
+import Login from '../components/Login.jsx';
 
 const App = () => {
+
   return (
     <div className="mainApp">
-      <h1>React App</h1>
+      <Login />
     </div>
   );
 };
