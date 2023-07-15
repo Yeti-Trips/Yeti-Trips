@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 
 import MainPage from './pages/MainPage.jsx';
 import Signup from './pages/Signup.jsx';
+import ProfileSettings from './pages/ProfileSettings.jsx';
 
 import {
   createBrowserRouter,
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
   {
     path: "/signup",
     element: <Signup />
+  },
+  {
+    path: "/profileSettings",
+    element: <ProfileSettings />
   },
   {
     path: "/",
