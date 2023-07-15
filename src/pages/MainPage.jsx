@@ -1,10 +1,13 @@
 import React, { Component, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addId } from '../reducers/userReducers.js';
 
-const AnotherPage = () => {
+import GroupVacationContainer from '../containers/GroupVacationContainer.jsx';
+import VacationContainer from '../containers/VactionContainer.jsx'
 
-  const stateID = useSelector(state => state.user.idCount);
+const MainPage = () => {
+
+  const userName = useSelector(state => state.user.userName);
+  const state = useSelector(state => state.trip)
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -19,7 +22,7 @@ const AnotherPage = () => {
           const data = await response.json();
           const user = data.user;
           // Dispatch an action to update the Redux store with the user information
-          dispatch(addId(user.id));
+          // dispatch(addId(user.id));
         } else {
           // Handle error if the response status is not OK
           console.error('Failed to fetch user data:', response.status);
@@ -35,10 +38,11 @@ const AnotherPage = () => {
 
   return (
     <div>
-      {stateID}
-      This is a test page
+      <GroupVacationContainer/>
+      <VacationContainer/>
+      {JSON.stringify(state)}
     </div>
   );
 };
 
-export default AnotherPage;
+export default MainPage;
