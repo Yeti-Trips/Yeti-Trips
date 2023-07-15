@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     tripList : [],
     done : false,
+    doneTwo: false,
 };
 
 const tripSlice = createSlice({
@@ -13,7 +14,8 @@ const tripSlice = createSlice({
     popupSwap: popupSwapFn,
     quizVotedUpdate: quizVotedUpdateFn,
     aiVacationOptionVotedUpdate: aiVacationOptionVotedUpdateFn,
-    popupClose: popupCloseFn
+    popupClose: popupCloseFn,
+    populateVacationOption: populateVacationOptionFn,
   }
 });
 
@@ -29,6 +31,23 @@ function populateTripListFn(state, action) {
     state.tripList = []
   }
 }
+
+function populateVacationOptionFn(state, action) {
+  if(action.payload && state.doneTwo === false){
+    state.doneTwo = true;
+    const options = action.payload;
+    const optionList = JSON.parse(options.content);
+    console.log(optionList)
+
+    for (let x = 0; x < 3; x++){
+      state.tripList[0].voting.options.push(optionList[x])
+    }
+    for (let x = 3; x < 6; x++){
+      state.tripList[1].voting.options.push(optionList[x])
+    }
+  }
+}
+
 
 function popupSwapFn(state, action) {
   state.tripList[action.payload].popup = true
@@ -47,5 +66,5 @@ function aiVacationOptionVotedUpdateFn(state, action){
   state.tripList[action.payload[1]].voting.voted.push(action.payload[0])
 }
 
-export const { populateTripList, popupSwap, quizVotedUpdate, aiVacationOptionVotedUpdate, popupClose } = tripSlice.actions;
+export const { populateTripList, popupSwap, quizVotedUpdate, aiVacationOptionVotedUpdate, popupClose, populateVacationOption } = tripSlice.actions;
 export default tripSlice.reducer;
